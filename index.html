@@ -121,6 +121,7 @@
             font-weight: bold;
             transition: transform 0.3s, box-shadow 0.3s;
             margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         .btn:hover {
@@ -328,6 +329,7 @@
 
         .contact-item {
             text-align: center;
+            min-width: 200px;
         }
 
         .contact-item i {
@@ -371,19 +373,29 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero-text {
-                text-align: center;
-            }
-
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
             .hero-text h1 {
-                font-size: 2.5em;
+                font-size: 3em;
+            }
+
+            .section-title {
+                font-size: 2.2em;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                padding: 0 15px;
+            }
+
+            nav .logo {
+                font-size: 1.3rem;
             }
 
             nav ul {
@@ -391,13 +403,258 @@
                 font-size: 0.9rem;
             }
 
+            .hero {
+                padding: 120px 15px 80px;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .hero-text {
+                text-align: center;
+                min-width: 100%;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5em;
+                margin-bottom: 15px;
+            }
+
+            .hero-text p {
+                font-size: 1.1em;
+                margin-bottom: 20px;
+            }
+
+            .hero-image {
+                flex: 0 0 250px;
+            }
+
+            .profile-pic {
+                width: 250px;
+                height: 250px;
+                border: 6px solid white;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 0.95em;
+            }
+
+            section {
+                padding: 60px 15px;
+            }
+
+            .section-title {
+                font-size: 2em;
+                margin-bottom: 40px;
+            }
+
+            .section-title::after {
+                width: 80px;
+                height: 3px;
+            }
+
             .about-content {
                 flex-direction: column;
                 text-align: center;
+                padding: 30px 20px;
+                gap: 30px;
+            }
+
+            .about-image {
+                flex: 0 0 200px;
+                margin: 0 auto;
+            }
+
+            .about-image img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .about-text {
+                min-width: 100%;
+            }
+
+            .about-text h3 {
+                font-size: 1.5em;
+            }
+
+            .about-text p {
+                font-size: 1em;
             }
 
             .skills-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .skill-card {
+                padding: 30px 20px;
+            }
+
+            .skill-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .skill-icon img {
+                width: 55px;
+                height: 55px;
+            }
+
+            .skill-card h3 {
+                font-size: 1.3em;
+            }
+
+            .skill-card p {
+                font-size: 0.95em;
+            }
+
+            .experience-content {
+                padding: 30px 20px;
+            }
+
+            .experience-item {
+                padding: 20px;
+            }
+
+            .experience-item h3 {
+                font-size: 1.3em;
+            }
+
+            .experience-item .position {
+                font-size: 1.1em;
+            }
+
+            .contact-content {
+                padding: 30px 15px;
+            }
+
+            .contact-content p {
+                font-size: 1em;
+            }
+
+            .contact-info {
+                gap: 30px;
+            }
+
+            .contact-item {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            nav ul {
+                gap: 0.7rem;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding: 100px 10px 60px;
+            }
+
+            .hero-text h1 {
+                font-size: 2em;
+            }
+
+            .hero-text p {
+                font-size: 1em;
+            }
+
+            .hero-image {
+                flex: 0 0 200px;
+            }
+
+            .profile-pic {
+                width: 200px;
+                height: 200px;
+                border: 5px solid white;
+            }
+
+            .btn {
+                padding: 10px 25px;
+                font-size: 0.9em;
+                margin-right: 5px;
+            }
+
+            section {
+                padding: 50px 10px;
+            }
+
+            .section-title {
+                font-size: 1.8em;
+                margin-bottom: 30px;
+            }
+
+            .about-content {
+                padding: 20px 15px;
+            }
+
+            .about-image {
+                flex: 0 0 180px;
+            }
+
+            .about-image img {
+                width: 180px;
+                height: 180px;
+            }
+
+            .about-text h3 {
+                font-size: 1.3em;
+            }
+
+            .about-text p {
+                font-size: 0.95em;
+            }
+
+            .skill-card {
+                padding: 25px 15px;
+            }
+
+            .skill-icon {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 20px;
+            }
+
+            .skill-icon img {
+                width: 45px;
+                height: 45px;
+            }
+
+            .skill-card h3 {
+                font-size: 1.2em;
+            }
+
+            .skill-card p {
+                font-size: 0.9em;
+            }
+
+            .experience-content {
+                padding: 20px 15px;
+            }
+
+            .experience-item {
+                padding: 15px;
+            }
+
+            .contact-item h3 {
+                font-size: 1.1em;
+            }
+
+            footer {
+                padding: 20px 15px;
+            }
+
+            footer p {
+                font-size: 0.9em;
             }
         }
     </style>
@@ -411,7 +668,6 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <!-- <li><a href="#experience">Experience</a></li> -->
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -528,47 +784,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Experience Section -->
-    <!-- <section id="experience">
-        <div class="container">
-            <h2 class="section-title">Professional Experience</h2>
-            <div class="experience-content">
-                <div class="experience-item">
-                    <h3>DevOps Engineer</h3>
-                    <p class="position">Senior Position | 2022 - Present</p>
-                    <ul>
-                        <li>Designed and implemented CI/CD pipelines using Jenkins and GitHub Actions, reducing deployment time by 60%</li>
-                        <li>Managed Kubernetes clusters across multiple environments, ensuring 99.9% uptime</li>
-                        <li>Automated infrastructure provisioning using Terraform and Ansible, managing 200+ cloud resources</li>
-                        <li>Implemented monitoring and logging solutions for proactive issue detection and resolution</li>
-                    </ul>
-                </div>
-
-                <div class="experience-item">
-                    <h3>Cloud Infrastructure Engineer</h3>
-                    <p class="position">Mid-Level Position | 2020 - 2022</p>
-                    <ul>
-                        <li>Built and maintained scalable cloud infrastructure on AWS and Azure platforms</li>
-                        <li>Developed automation scripts for routine operational tasks, improving team efficiency by 40%</li>
-                        <li>Collaborated with development teams to optimize application deployment processes</li>
-                        <li>Implemented security best practices and compliance measures across infrastructure</li>
-                    </ul>
-                </div>
-
-                <div class="experience-item">
-                    <h3>Linux System Administrator</h3>
-                    <p class="position">Junior Position | 2018 - 2020</p>
-                    <ul>
-                        <li>Managed and maintained Linux servers, ensuring optimal performance and security</li>
-                        <li>Implemented backup and disaster recovery solutions</li>
-                        <li>Provided technical support and troubleshooting for infrastructure issues</li>
-                        <li>Documented system configurations and operational procedures</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
     <!-- Contact Section -->
     <section id="contact">
