@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -28,6 +32,13 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
         }
 
         nav .container {
@@ -53,11 +64,28 @@
         nav a {
             color: white;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: #667eea;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         nav a:hover {
             color: #667eea;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         /* Hero Section */
@@ -67,6 +95,7 @@
             padding: 150px 20px 100px;
             text-align: center;
             margin-top: 60px;
+            overflow: hidden;
         }
 
         .hero-content {
@@ -95,6 +124,7 @@
             font-size: 1.3em;
             margin-bottom: 30px;
             opacity: 0.9;
+            animation: fadeInLeft 1.2s ease;
         }
 
         .hero-image {
@@ -109,6 +139,22 @@
             border: 8px solid white;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             object-fit: cover;
+            transition: all 0.5s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.5);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         .btn {
@@ -119,9 +165,29 @@
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
             margin-right: 10px;
             margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn:hover {
@@ -158,6 +224,14 @@
             color: #1a1a2e;
             margin-bottom: 50px;
             position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title::after {
@@ -167,6 +241,11 @@
             height: 4px;
             background: #667eea;
             margin: 20px auto 0;
+            transition: width 0.6s ease;
+        }
+
+        .section-title:hover::after {
+            width: 150px;
         }
 
         /* About Section */
@@ -179,6 +258,14 @@
             padding: 50px;
             border-radius: 20px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .about-content.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .about-image {
@@ -191,6 +278,14 @@
             border-radius: 20px;
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.5s ease;
+            filter: grayscale(20%);
+        }
+
+        .about-image img:hover {
+            transform: scale(1.05) rotate(-3deg);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            filter: grayscale(0%);
         }
 
         .about-text {
@@ -224,14 +319,26 @@
             border-radius: 15px;
             padding: 40px;
             text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+        }
+
+        .skill-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .skill-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.03);
             box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: rotateY(360deg);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
         }
 
         .skill-icon {
@@ -244,6 +351,7 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.6s ease;
         }
 
         .skill-icon img {
@@ -263,44 +371,6 @@
             color: #666;
             font-size: 1em;
             line-height: 1.6;
-        }
-
-        /* Experience Section */
-        .experience-content {
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .experience-item {
-            padding: 30px;
-            border-left: 4px solid #667eea;
-            margin-bottom: 30px;
-            background: #f9f9f9;
-            border-radius: 10px;
-        }
-
-        .experience-item h3 {
-            color: #667eea;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .experience-item .position {
-            color: #1a1a2e;
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .experience-item ul {
-            margin-left: 20px;
-            color: #555;
-        }
-
-        .experience-item ul li {
-            margin-bottom: 8px;
         }
 
         /* Contact Section */
@@ -330,6 +400,18 @@
         .contact-item {
             text-align: center;
             min-width: 200px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .contact-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-10px) scale(1.05);
         }
 
         .contact-item i {
@@ -513,22 +595,6 @@
                 font-size: 0.95em;
             }
 
-            .experience-content {
-                padding: 30px 20px;
-            }
-
-            .experience-item {
-                padding: 20px;
-            }
-
-            .experience-item h3 {
-                font-size: 1.3em;
-            }
-
-            .experience-item .position {
-                font-size: 1.1em;
-            }
-
             .contact-content {
                 padding: 30px 15px;
             }
@@ -635,14 +701,6 @@
 
             .skill-card p {
                 font-size: 0.9em;
-            }
-
-            .experience-content {
-                padding: 20px 15px;
-            }
-
-            .experience-item {
-                padding: 15px;
             }
 
             .contact-item h3 {
@@ -821,5 +879,86 @@
             <p style="margin-top: 10px; opacity: 0.8;">Building the future, one deployment at a time.</p>
         </div>
     </footer>
+
+    <script>
+        // Navbar scroll effect
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe section titles
+        document.querySelectorAll('.section-title').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Observe skill cards with staggered animation
+        const skillCards = document.querySelectorAll('.skill-card');
+        skillCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+            observer.observe(card);
+        });
+
+        // Observe about section
+        document.querySelectorAll('.about-content').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Observe contact items with staggered animation
+        const contactItems = document.querySelectorAll('.contact-item');
+        contactItems.forEach((item, index) => {
+            item.style.transitionDelay = `${index * 0.2}s`;
+            observer.observe(item);
+        });
+
+        // Add parallax effect to hero section
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const hero = document.querySelector('.hero');
+                    if (hero && scrolled < window.innerHeight) {
+                        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                        hero.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    </script>
 </body>
 </html>
