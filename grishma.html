@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Grishma! 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* --- Reset & Base --- */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins', sans-serif; overflow:hidden; width:100vw; height:100vh; position:relative; }
+
+/* --- Background Gradient --- */
+.background {
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f, #ffecd2, #a8edea, #ffecd2);
+    background-size:400% 400%;
+    animation: gradientShift 15s ease infinite; z-index:1;
+}
+@keyframes gradientShift { 0%,100% { background-position:0% 50%; } 50% { background-position:100% 50%; } }
+
+/* --- Container --- */
+.container { position:relative; z-index:2; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+
+/* --- Stage 1 --- */
+#stage1 { text-align:center; opacity:1; transition:opacity 0.8s ease; }
+#stage1.hidden { opacity:0; pointer-events:none; }
+
+.name-text { font-size:clamp(3rem,12vw,6rem); font-weight:700; color:#ff6b9d; text-shadow:0 0 20px rgba(255,107,157,0.6),0 0 40px rgba(255,107,157,0.4); animation:glow 2s ease-in-out infinite; margin-bottom:1rem; }
+@keyframes glow { 0%,100% { text-shadow:0 0 20px rgba(255,107,157,0.6),0 0 40px rgba(255,107,157,0.4);} 50% { text-shadow:0 0 30px rgba(255,107,157,0.8),0 0 60px rgba(255,107,157,0.6);} }
+
+.wish-text-stage1 { font-size:clamp(1.5rem,4vw,2rem); font-weight:500; color:#667eea; margin-bottom:2rem; text-shadow:0 0 10px rgba(102,126,234,0.3); min-height:4rem; }
+.wish-text-stage1 .cursor { display:inline-block; width:2px; height:1.5rem; background:#667eea; margin-left:2px; animation:blink 0.7s infinite; }
+@keyframes blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+
+/* --- Surprise Button --- */
+.surprise-btn { 
+    display:none; 
+    margin-top:2rem; 
+    padding:1.2rem 3rem; 
+    font-size:clamp(1.2rem,3vw,1.8rem); 
+    font-weight:700; 
+    color:#fff; 
+    background:linear-gradient(135deg, #667eea, #764ba2); 
+    border:none; 
+    border-radius:50px; 
+    cursor:pointer; 
+    box-shadow:0 8px 25px rgba(102,126,234,0.4); 
+    transition:all 0.3s ease;
+    animation:buttonPulse 2s ease-in-out infinite;
+    opacity:0;
+    transform:translateY(20px) scale(0.8);
+}
+.surprise-btn.show {
+    animation:buttonAppear 0.6s ease forwards, buttonPulse 2s ease-in-out infinite 0.6s;
+}
+@keyframes buttonAppear {
+    0% {
+        opacity:0;
+        transform:translateY(20px) scale(0.8);
+    }
+    50% {
+        transform:translateY(-5px) scale(1.05);
+    }
+    100% {
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+.surprise-btn:hover { 
+    transform:translateY(-3px) scale(1.05); 
+    box-shadow:0 12px 35px rgba(102,126,234,0.6); 
+}
+.surprise-btn:active { 
+    transform:translateY(0) scale(0.98); 
+}
+@keyframes buttonPulse { 
+    0%,100% { box-shadow:0 8px 25px rgba(102,126,234,0.4); } 
+    50% { box-shadow:0 8px 35px rgba(102,126,234,0.7), 0 0 20px rgba(102,126,234,0.5); } 
+}
+
+/* --- Stage 2 --- */
+#stage2 { display:none; opacity:0; text-align:center; width:100%; padding:1rem; }
+#stage2.active { display:flex; flex-direction:column; justify-content:center; align-items:center; animation:fadeIn 1s ease forwards; }
+@keyframes fadeIn { to { opacity:1; } }
+
+.wish-text { font-size:clamp(2rem,5vw,4rem); font-weight:700; color:#ff6b9d; text-shadow:0 0 20px rgba(255,107,157,0.6),0 0 40px rgba(255,107,157,0.4); margin-bottom:2rem; }
+
+/* --- Image Frame --- */
+.image-container { position:relative; width:clamp(200px,70vw,400px); height:clamp(200px,70vw,400px); margin:2rem 0; z-index:5; }
+.photo-frame { width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg,rgba(255,255,255,0.3),rgba(255,255,255,0.1)); backdrop-filter:blur(10px); padding:8px; box-shadow:0 8px 32px rgba(31,38,135,0.37); border:2px solid rgba(255,255,255,0.18); animation: glowBorder 3s ease-in-out infinite; position:relative; }
+@keyframes glowBorder { 0%,100%{ box-shadow:0 0 20px rgba(255,107,157,0.6),0 0 40px rgba(255,107,157,0.4); } 50%{ box-shadow:0 0 40px rgba(255,107,157,0.8),0 0 60px rgba(255,107,157,0.6); } }
+.photo-frame img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
+
+/* --- Balloon Emoji --- */
+.balloon { position:absolute; font-size:2rem; bottom:-50px; animation:floatUp linear forwards; z-index:1; }
+@keyframes floatUp { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(-120vh); opacity:0; } }
+
+/* --- Confetti --- */
+.confetti { position:absolute; border-radius:50%; z-index:1; animation:confettiFall linear forwards; }
+@keyframes confettiFall { 0% { transform: translateY(0); opacity:1; } 100% { transform: translateY(110vh); opacity:0; } }
+
+/* --- Sparkles --- */
+.sparkle { position:absolute; width:8px; height:8px; border-radius:50%; background:white; box-shadow:0 0 10px white; animation:sparkleAnim 1.2s ease-in-out infinite alternate; z-index:6; }
+@keyframes sparkleAnim { 0% { transform: scale(0.5) rotate(0deg); opacity:0.5; } 50% { transform: scale(1.2) rotate(180deg); opacity:1; } 100% { transform: scale(0.5) rotate(360deg); opacity:0.5; } }
+
+/* --- Fireworks --- */
+.firework { position:absolute; width:8px; height:8px; border-radius:50%; z-index:7; animation:fireworkExplode 1s ease-out forwards; }
+@keyframes fireworkExplode { 0% { transform: translate(0,0) scale(1); opacity:1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0.3); opacity:0; } }
+
+/* --- Sound Indicator --- */
+.sound-indicator { position:fixed; top:1rem; right:1rem; padding:0.8rem 1.2rem; background:rgba(255,107,157,0.9); color:white; border-radius:30px; font-size:0.9rem; font-weight:600; z-index:100; opacity:0; transition:opacity 0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+.sound-indicator.show { opacity:1; }
+
+/* --- Footer --- */
+.footer { position:fixed; bottom:1rem; left:50%; transform:translateX(-50%); font-size:clamp(0.8rem,2.5vw,1rem); color:#764ba2; text-shadow:0 2px 4px rgba(0,0,0,0.1); z-index:10; text-align:center; padding:0 1rem; max-width:90%; }
+
+/* --- Mobile Responsiveness --- */
+@media(max-width:768px){ 
+    .balloon{font-size:1.5rem;} 
+    .name-text { font-size:clamp(2.5rem,10vw,5rem); margin-bottom:0.5rem; }
+    .wish-text-stage1 { font-size:clamp(1.2rem,3.5vw,1.8rem); padding:0 1rem; }
+    .wish-text { font-size:clamp(1.5rem,4vw,3rem); margin-bottom:1rem; padding:0 0.5rem; }
+    .image-container { width:clamp(180px,60vw,350px); height:clamp(180px,60vw,350px); margin:1rem 0; }
+    .footer { font-size:clamp(0.7rem,2vw,0.9rem); bottom:0.5rem; }
+    .sparkle { width:6px; height:6px; }
+}
+
+@media(max-width:480px){ 
+    .name-text { font-size:clamp(2rem,9vw,4rem); }
+    .wish-text-stage1 { font-size:clamp(1rem,3vw,1.5rem); min-height:3rem; }
+    .wish-text { font-size:clamp(1.2rem,3.5vw,2.5rem); }
+    .image-container { width:clamp(150px,55vw,300px); height:clamp(150px,55vw,300px); }
+    .balloon { font-size:1.2rem; }
+    .footer { font-size:0.7rem; }
+    .surprise-btn { font-size:clamp(1rem,2.5vw,1.5rem); padding:1rem 2rem; }
+}
+
+@media(max-height:600px){ 
+    .name-text { margin-bottom:0.3rem; }
+    .wish-text-stage1 { margin-bottom:1rem; min-height:2.5rem; }
+    .wish-text { margin-bottom:0.5rem; }
+    .image-container { width:clamp(120px,45vw,250px); height:clamp(120px,45vw,250px); margin:0.5rem 0; }
+}
+</style>
+</head>
+<body>
+<div class="background"></div>
+
+<div class="container">
+    <!-- Stage 1 -->
+    <div id="stage1">
+        <h1 class="name-text">Grishma</h1>
+        <p class="wish-text-stage1" id="wishText"></p>
+        <button class="surprise-btn" id="surpriseBtn">🎉 Click for Surprise 🎉</button>
+    </div>
+
+    <!-- Stage 2 -->
+    <div id="stage2">
+        <h2 class="wish-text">Happy Birthday Grishma 🎉🎂</h2>
+        <div class="image-container" id="imageFrame">
+            <div class="photo-frame">
+                <img src="./photo.jpg" alt="Grishma">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">With Best Wishes💙, From your Friend, Rituraj</div>
+
+<audio id="bgMusic" loop>
+    <source src="./birthday.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const fullWishText = "Happy Birthday!\nMay this special day bring you lots of happiness and wonderful memories 🎂🎉";
+let charIndex = 0;
+
+// --- Typewriter Effect ---
+window.addEventListener('load', () => {
+    typeWriter();
+});
+
+function typeWriter() {
+    const wishElement = document.getElementById('wishText');
+    
+    if (charIndex < fullWishText.length) {
+        const char = fullWishText.charAt(charIndex);
+        if (char === '\n') {
+            wishElement.innerHTML += '<br>';
+        } else {
+            wishElement.innerHTML += char;
+        }
+        charIndex++;
+        setTimeout(typeWriter, 80);
+    } else {
+        wishElement.innerHTML += '<span class="cursor"></span>';
+        // Show surprise button after typewriter finishes with animation
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        surpriseBtn.style.display = 'inline-block';
+        setTimeout(() => {
+            surpriseBtn.classList.add('show');
+        }, 100);
+        surpriseBtn.addEventListener('click', showSurprise);
+    }
+}
+function showSurprise() {
+    const stage1 = document.getElementById('stage1');
+    const stage2 = document.getElementById('stage2');
+    const music = document.getElementById('bgMusic');
+
+    // Prepare audio for instant playback
+    try {
+        music.pause();               // safely stop if already playing
+        music.currentTime = 0;       // start from beginning
+        music.volume = 0.3;          // set desired volume
+        // ensure it's loaded (preload helps; load() can be used if needed)
+        // music.load();
+    } catch (e) {
+        console.warn('Audio prepare failed:', e);
+    }
+
+    // Start playback immediately (click is a user gesture so this should work)
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(e => console.warn('Audio play prevented:', e));
+    }
+
+    // UI transition (music already started)
+    stage1.classList.add('hidden');
+    setTimeout(() => {
+        stage1.style.display = 'none';
+        stage2.classList.add('active');
+
+        createSparkles();
+        createConfetti();
+        setInterval(createBalloon, 500);
+        setInterval(createConfetti, 8000);
+        setInterval(triggerFireworks, 5000);
+    }, 800);
+}
+
+// --- Show Surprise & Start Effects ---
+
+// --- Sparkles ---
+function createSparkles() {
+    const frame = document.getElementById('imageFrame');
+    const radius = frame.offsetWidth / 2 + 20;
+    for (let i = 0; i < 8; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        const angle = (i / 8) * 2 * Math.PI;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        sparkle.style.left = `calc(50% + ${x}px)`;
+        sparkle.style.top = `calc(50% + ${y}px)`;
+        sparkle.style.animationDelay = `${i * 0.25}s`;
+        frame.appendChild(sparkle);
+    }
+}
+
+// --- Balloons ---
+function createBalloon() {
+    const balloon = document.createElement('div');
+    balloon.className = 'balloon';
+    balloon.textContent = ['🎈','🎉','🎊'][Math.floor(Math.random()*3)];
+    balloon.style.left = Math.random() * 90 + '%';
+    balloon.style.fontSize = (3 + Math.random() * 2) + 'rem';
+    const duration = 8 + Math.random() * 4;
+    balloon.style.animationDuration = duration + 's';
+    document.body.appendChild(balloon);
+    setTimeout(() => balloon.remove(), duration * 1000);
+}
+
+// --- Confetti ---
+function createConfetti() {
+    for(let i=0;i<50;i++){
+        setTimeout(()=>{
+            const confetti=document.createElement('div');
+            confetti.className='confetti';
+            const colors=['#ff6b6b','#4ecdc4','#45b7d1','#f9ca24','#6c5ce7','#fd79a8'];
+            confetti.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+            confetti.style.left=Math.random()*100+'%';
+            confetti.style.top='-10px';
+            const size = 4 + Math.random()*6;
+            confetti.style.width = size+'px';
+            confetti.style.height = size+'px';
+            confetti.style.animationDuration = (2 + Math.random()*2)+'s';
+            document.body.appendChild(confetti);
+            setTimeout(()=>confetti.remove(),4000);
+        }, i*50);
+    }
+}
+
+// --- Fireworks ---
+function triggerFireworks(){
+    for(let i=0;i<5;i++){
+        setTimeout(()=>{
+            const x=Math.random()*window.innerWidth;
+            const y=Math.random()*window.innerHeight*0.7;
+            createFirework(x,y);
+        }, i*300);
+    }
+}
+function createFirework(x,y){
+    const colors=['#ff6b6b','#4ecdc4','#45b7d1','#f9ca24','#6c5ce7','#fd79a8','#00d2d3'];
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    for(let i=0;i<30;i++){
+        const particle=document.createElement('div');
+        particle.className='firework';
+        particle.style.left=x+'px';
+        particle.style.top=y+'px';
+        particle.style.backgroundColor=color;
+        const angle=(i/30)*2*Math.PI;
+        const velocity=50 + Math.random()*100;
+        const tx=Math.cos(angle)*velocity;
+        const ty=Math.sin(angle)*velocity;
+        particle.style.setProperty('--tx', tx+'px');
+        particle.style.setProperty('--ty', ty+'px');
+        document.body.appendChild(particle);
+        setTimeout(()=>particle.remove(),1000);
+    }
+}
+</script>
+</body>
+</html>
