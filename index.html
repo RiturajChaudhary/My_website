@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rituraj Chaudhary | DevOps Engineer</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root{
   --bg:#040d1a; --bg2:#071424;
@@ -266,7 +267,6 @@ footer{position:relative;z-index:1;padding:2.2rem var(--pad-x);text-align:center
       <div class="glass sk-card reveal"><div class="sk-top"><div class="sk-icon">&#9784;&#65039;</div><div class="sk-name">Kubernetes</div></div><div class="sk-body">Pods, Deployments, StatefulSets, DaemonSets, ReplicaSets, Services, Ingress. Namespaces and kubectl.</div></div>
       <div class="glass sk-card reveal"><div class="sk-top"><div class="sk-icon">&#127758;</div><div class="sk-name">Terraform</div></div><div class="sk-body">HCL configs, provisioning AWS resources (EC2, S3, VPC, ASG, ELB), state files, AMIs, Launch Templates.</div></div>
       <div class="glass sk-card reveal"><div class="sk-top"><div class="sk-icon">&#128295;</div><div class="sk-name">Jenkins CI/CD</div></div><div class="sk-body">End-to-end pipelines integrated with GitHub, automating build, test, and deploy workflows. Poll SCM triggers.</div></div>
-      <!-- ✅ NEW SKILL: ArgoCD -->
       <div class="glass sk-card reveal"><div class="sk-top"><div class="sk-icon">&#128260;</div><div class="sk-name">ArgoCD / GitOps</div></div><div class="sk-body">GitOps-based continuous delivery. Auto-sync, self-heal, drift detection. Deployed on Kubernetes with Minikube.</div></div>
       <div class="glass sk-card reveal"><div class="sk-top"><div class="sk-icon">&#128221;</div><div class="sk-name">Bash Scripting</div></div><div class="sk-body">Automation scripts for sysadmin tasks, cron jobs, user creation, disk monitoring. Firewall rules via Bash scripts.</div></div>
       <div class="glass sk-card reveal"><div class="sk-top"><div class="sk-icon">&#128256;</div><div class="sk-name">Git / GitHub</div></div><div class="sk-body">Version control, branching strategies, merge conflict resolution, repository management, pull requests.</div></div>
@@ -305,7 +305,6 @@ footer{position:relative;z-index:1;padding:2.2rem var(--pad-x);text-align:center
         <div class="proj-cta">View Details &rarr;</div>
       </div>
 
-      <!-- ✅ NEW PROJECT: ArgoCD GitOps -->
       <div class="glass proj-card reveal" onclick="openModal('p4')">
         <div class="proj-num">04 &mdash; GitOps / CI/CD</div>
         <div class="proj-name">End-to-End CI/CD with Jenkins + ArgoCD + AWS EC2</div>
@@ -390,7 +389,6 @@ footer{position:relative;z-index:1;padding:2.2rem var(--pad-x);text-align:center
             <div class="fg"><label>Name</label><input type="text" id="fname" placeholder="Your Name"></div>
             <div class="fg"><label>Email</label><input type="email" id="femail" placeholder="you@company.com"></div>
           </div>
-          <div class="fg"><label>Subject</label><input type="text" id="fsubj" placeholder="DevOps Collaboration / Inquiry"></div>
           <div class="fg"><label>Message</label><textarea id="fmsg" rows="5" placeholder="Tell me about the opportunity..."></textarea></div>
           <div class="fst" id="fst"></div>
           <button class="btn btn-p" id="submitBtn" onclick="send()">Send Message &rarr;</button>
@@ -414,6 +412,12 @@ footer{position:relative;z-index:1;padding:2.2rem var(--pad-x);text-align:center
 </div>
 
 <script>
+// ── EmailJS init ──────────────────────────────────────────────
+(function(){
+  emailjs.init({ publicKey: '4AFkJTdVKxk6m49dh' });
+})();
+
+// ── Nav ───────────────────────────────────────────────────────
 function toggleNav(){
   document.getElementById('navLinks').classList.toggle('open');
   document.getElementById('ham').classList.toggle('open');
@@ -429,6 +433,8 @@ document.addEventListener('click',e=>{
 document.querySelectorAll('section[id]').forEach(s=>{
   new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('.nav-links a').forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id);});});},{threshold:.3}).observe(s);
 });
+
+// ── Typewriter ────────────────────────────────────────────────
 const PH=['Aspiring DevOps Engineer','Cloud Infrastructure Builder'];
 let pi=0,ci=0,del=false;
 const tel=document.getElementById('typed');
@@ -439,9 +445,13 @@ function type(){
   setTimeout(type,del?52:82);
 }
 setTimeout(type,750);
+
+// ── Scroll reveals ────────────────────────────────────────────
 const ro=new IntersectionObserver(en=>en.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.07});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 new IntersectionObserver(en=>en.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('.pipe-step').forEach(s=>s.classList.add('vis'));}),{threshold:.12}).observe(document.getElementById('pipeline'));
+
+// ── Parallax orbs ─────────────────────────────────────────────
 if(window.matchMedia('(pointer:fine)').matches){
   let ticking=false;
   window.addEventListener('scroll',()=>{
@@ -455,6 +465,7 @@ if(window.matchMedia('(pointer:fine)').matches){
   });
 }
 
+// ── Project modals ────────────────────────────────────────────
 const PD={
   p1:{tag:'01 // INFRASTRUCTURE AS CODE',title:'AWS Infrastructure Automation with Terraform',
     desc:'Automated provisioning of VPCs, subnets, EC2 instances, ASGs, load balancers, S3 buckets, and security groups.',
@@ -498,19 +509,43 @@ function closeModal(){document.getElementById('overlay').classList.remove('on');
 function closeOut(e){if(e.target===document.getElementById('overlay'))closeModal();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
+// ── Contact form with EmailJS ─────────────────────────────────
 function send(){
-  const n=document.getElementById('fname').value.trim();
-  const em=document.getElementById('femail').value.trim();
-  const msg=document.getElementById('fmsg').value.trim();
-  const st=document.getElementById('fst');
-  const btn=document.getElementById('submitBtn');
-  if(!n||!em||!msg){st.className='fst err';st.textContent='Please fill in all required fields.';return;}
-  btn.textContent='Sending…';btn.disabled=true;
-  setTimeout(()=>{
-    btn.textContent='Send Message →';btn.disabled=false;
-    st.className='fst ok';st.textContent='Message noted! Connect via email or LinkedIn for fastest response.';
-    ['fname','femail','fsubj','fmsg'].forEach(id=>document.getElementById(id).value='');
-  },1200);
+  const name  = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const msg   = document.getElementById('fmsg').value.trim();
+  const st    = document.getElementById('fst');
+  const btn   = document.getElementById('submitBtn');
+
+  if(!name || !email || !msg){
+    st.className='fst err';
+    st.textContent='Please fill in all required fields.';
+    return;
+  }
+
+  btn.textContent='Sending…';
+  btn.disabled=true;
+
+  emailjs.send('service_s3fk7bl', 'template_0iktivc', {
+    from_name: name,
+    from_email: email,
+    message: msg,
+    reply_to: email
+  })
+  .then(()=>{
+    btn.textContent='Send Message →';
+    btn.disabled=false;
+    st.className='fst ok';
+    st.textContent='Message sent! I\'ll get back to you soon.';
+    ['fname','femail','fmsg'].forEach(id=>document.getElementById(id).value='');
+  })
+  .catch(err=>{
+    btn.textContent='Send Message →';
+    btn.disabled=false;
+    st.className='fst err';
+    st.textContent='Failed to send. Please try emailing directly at manojchy4164@gmail.com';
+    console.error('EmailJS error:', err);
+  });
 }
 </script>
 </body>
