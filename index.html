@@ -529,6 +529,10 @@ function send(){
   emailjs.send('service_s3fk7bl', 'template_0iktivc', {
     from_name: name,
     from_email: email,
+    user_name: name,
+    user_email: email,
+    name: name,
+    email: email,
     message: msg,
     reply_to: email
   })
