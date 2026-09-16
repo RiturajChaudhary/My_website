@@ -10,12 +10,9 @@
   --soft: #50615a;
   --faint: #7c8981;
   --line: color-mix(in srgb, var(--paper) 24%, transparent);
-  --acid: #d69a3a;
-  --aqua: #3f9182;
-  --violet: #a86c55;
-    --acid: #2864d7;
-    --aqua: #168779;
-    --violet: #c96f52;
+  --acid: #2864d7;
+  --aqua: #168779;
+  --violet: #c96f52;
   --mono: 'DM Mono', monospace;
   --sans: 'Manrope', sans-serif;
   --content: min(1120px, calc(100vw - 3rem));
@@ -220,4 +217,68 @@ h2 { font-size: clamp(2.7rem, 5.5vw, 5.5rem); font-weight: 600; }
   .social-links { align-items: stretch; flex-direction: column; }
   .social-link { justify-content: center; }
   .contact-form .button { width: 100%; justify-content: center; }
+}
+
+/* Final responsive overrides keep every surface usable between 320px and wide desktop. */
+@media (max-width: 1100px) {
+  :root { --content: min(960px, calc(100vw - 2.5rem)); }
+  .hero { grid-template-columns: minmax(0, 1fr) 280px; gap: 2.5rem; }
+  .about-grid, .section-intro, .contact-grid { gap: 2.5rem; }
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project-card-large { grid-column: 1 / -1; min-height: 300px; }
+}
+
+@media (max-width: 700px) {
+  :root { --content: calc(100vw - 2rem); }
+  .site-header { min-height: 68px; }
+  .site-nav { gap: .55rem .9rem; }
+  .site-nav a { font-size: .68rem; letter-spacing: .03em; }
+  .hero { display: flex; flex-direction: column; align-items: stretch; gap: 0; min-height: auto; padding: 0 0 4rem; }
+  .hero-copy { padding: 4.5rem 0 2.5rem; }
+  .hero-mesh { inset: 2% -25% 35% 0; }
+  .hero-visual { width: min(300px, 78vw); align-self: center; }
+  .hero-scroll { position: static; margin-top: 2rem; }
+  .about-grid, .section-intro, .contact-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .section-intro > p { max-width: none; }
+  .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card, .project-card-large { grid-column: auto; min-height: 280px; }
+  .workflow-preview { justify-content: flex-start; }
+  .preview-node { flex-basis: 160px; width: 160px; }
+  .resume-card { gap: 1.5rem; }
+  .resume-card .button { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  :root { --content: calc(100vw - 1.5rem); }
+  .site-header { align-items: center; }
+  .brand { font-size: .95rem; }
+  .site-nav { gap: .35rem .6rem; }
+  .site-nav a { font-size: .6rem; }
+  .hero h1 { font-size: clamp(2.3rem, 13vw, 3.4rem); }
+  .hero-lede { font-size: .94rem; }
+  .hero-actions { gap: .75rem; }
+  .hero-actions .button, .hero-actions .text-link { width: 100%; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .skill-card { border-right: 0; border-bottom: 1px solid var(--line); }
+  .skill-card:last-child { border-bottom: 0; }
+  .content-section { padding: 4rem 0; }
+  .section-heading { margin-bottom: 1.8rem; }
+  .project-card h3 { font-size: 1.65rem; }
+  .preview-node { flex-basis: 145px; width: 145px; height: 72px; font-size: .75rem; }
+  .workflow-preview > span { font-size: .95rem; }
+  .project-detail, .workflow-detail { padding-top: 3.5rem; }
+  .project-detail h1, .workflow-detail h1 { font-size: clamp(2.2rem, 13vw, 3.2rem); }
+  .detail-layout { gap: .75rem; }
+  .detail-card { padding: 1rem; }
+  .site-footer p { max-width: 24ch; line-height: 1.5; }
+}
+
+@media (max-width: 350px) {
+  .site-header { flex-wrap: wrap; gap: .6rem; padding: .75rem 0; }
+  .site-nav { width: 100%; justify-content: space-between; }
+  .hero-copy { padding-top: 3.5rem; }
+  .hero-visual { width: 100%; }
+  .status-log { font-size: .66rem; }
+  .preview-node { flex-basis: 135px; width: 135px; }
 }
