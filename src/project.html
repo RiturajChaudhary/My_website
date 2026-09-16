@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f0e8">
+    <title>Project Details | Rituraj Chaudhary</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body class="project-page">
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="./">RC<span>.</span></a>
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="./#home">Home</a>
+          <a href="./#about">About</a>
+          <a href="./#skills">Skills</a>
+          <a href="./#projects">Projects</a>
+          <a href="./#resume">Resume</a>
+          <a href="./#contact">Contact</a>
+        </nav>
+      </header>
+      <main class="project-detail section-wrap">
+        <p class="kicker" id="detail-meta">Project details</p>
+        <h1 id="detail-title">Project</h1>
+        <p class="hero-lede" id="detail-description"></p>
+        <div class="detail-layout">
+          <section class="detail-card">
+            <p class="kicker">Implementation notes</p>
+            <ul id="detail-points"></ul>
+          </section>
+          <aside class="detail-card">
+            <p class="kicker">Project links</p>
+            <div id="detail-links"></div>
+          </aside>
+        </div>
+        <section class="detail-card delivery-notes">
+          <p class="kicker">Delivery steps</p>
+          <ol>
+            <li>Developer creates a feature branch and opens a pull request.</li>
+            <li>CI checks out the code, installs dependencies, runs unit tests, SonarQube analysis, and OWASP Dependency-Check.</li>
+            <li>The application is built, packaged into a Docker image, scanned with Trivy, and pushed to a container registry.</li>
+            <li>The update repository receives the image update and Argo CD synchronizes it to DEV.</li>
+            <li>Integration tests run before the release is deployed to STAGING and then PRODUCTION.</li>
+            <li>Prometheus collects operational metrics and Grafana provides dashboards for production monitoring.</li>
+          </ol>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./project.js"></script>
+  </body>
+</html>
