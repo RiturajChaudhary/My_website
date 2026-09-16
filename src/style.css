@@ -82,7 +82,7 @@ h2 { font-size: clamp(2.7rem, 5.5vw, 5.5rem); font-weight: 600; }
 .section-intro > p { max-width: 310px; color: var(--soft); line-height: 1.85; margin-bottom: .4rem; }
 .workflow-page-link { margin-top: 1.2rem; }
 .workflow-marquee { position: relative; width: 100%; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--ink-2) 48%, transparent); }
-.workflow-preview { display: flex; align-items: center; flex-wrap: nowrap; gap: .8rem; width: max-content; padding: 1rem .2rem 1.5rem; animation: workflow-marquee-slide 42s linear infinite; }
+.workflow-preview { display: flex; align-items: center; flex-wrap: nowrap; gap: .8rem; width: max-content; padding: 1rem .2rem 1.5rem; will-change: transform; -webkit-animation: workflow-marquee-slide 42s linear infinite; animation: workflow-marquee-slide 42s linear infinite; }
 .workflow-marquee:hover .workflow-preview, .workflow-marquee:focus-within .workflow-preview { animation-play-state: paused; }
 .preview-node { display: grid; place-items: center; flex: 0 0 180px; width: 180px; height: 80px; padding: .75rem; color: var(--paper); border: 1px solid var(--line); background: color-mix(in srgb, var(--ink-2) 78%, transparent); box-shadow: 0 14px 35px var(--shadow), inset 0 1px rgba(255,255,255,.55); font-size: .82rem; font-weight: 700; line-height: 1.25; text-align: center; }
 .preview-node::before { content: attr(data-logo); display: grid; place-items: center; width: 34px; height: 20px; margin-bottom: .45rem; color: var(--acid); border: 1px solid color-mix(in srgb, var(--acid) 42%, var(--line)); background: color-mix(in srgb, var(--acid) 8%, var(--ink-2)); font-family: var(--mono); font-size: .55rem; }
@@ -292,4 +292,8 @@ h2 { font-size: clamp(2.7rem, 5.5vw, 5.5rem); font-weight: 600; }
   .site-nav a, .button, .social-link, .menu-toggle { min-height: 44px; }
   .site-nav a { display: inline-flex; align-items: center; }
   .workflow-preview { -webkit-overflow-scrolling: touch; }
+}
+
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  .workflow-preview { -webkit-animation-play-state: running; animation-play-state: running; }
 }
