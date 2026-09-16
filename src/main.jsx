@@ -1,11 +1,16 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import emailjs from '@emailjs/browser';
 import {
   ArrowUpRight, Boxes, Cloud, Code2, Container, Cpu, Download, ExternalLink,
   Github, GitBranch, Globe2, Layers3, Linkedin, Mail, MapPin, Menu, Send,
   Server, ShieldCheck, Sparkles, Terminal, X, Zap
 } from 'lucide-react';
 import './styles.css';
+
+const emailServiceId = 'service_s3fk7bl';
+const emailTemplateId = 'template_0iktivc';
+const emailPublicKey = '4AFkJTdVKxk6m49dh';
 
 const projects = [
   {
@@ -45,9 +50,11 @@ const skills = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [sent, setSent] = useState(false);
+  const [formStatus, setFormStatus] = useState('');
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
+    emailjs.init({ publicKey: emailPublicKey });
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (entry.isIntersecting) entry.target.classList.add('is-visible');
     }), { threshold: 0.12 });
@@ -55,13 +62,27 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const subject = encodeURIComponent(`Portfolio enquiry from ${data.get('name')}`);
-    const body = encodeURIComponent(`${data.get('message')}\n\nReply to: ${data.get('email')}`);
-    window.location.href = `mailto:manojchy4164@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
+    setSending(true);
+    setFormStatus('Sending your message...');
+
+    try {
+      await emailjs.send(emailServiceId, emailTemplateId, {
+        name: data.get('name'),
+        email: data.get('email'),
+        message: data.get('message'),
+        reply_to: data.get('email'),
+        time: new Date().toLocaleString()
+      });
+      event.currentTarget.reset();
+      setFormStatus("Message sent. I'll get back to you soon.");
+    } catch {
+      setFormStatus('Unable to send right now. Please email me directly at manojchy4164@gmail.com.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return <>
@@ -107,7 +128,7 @@ function App() {
       </section>
 
       <section id="contact" className="section-shell section contact-section">
-        <div className="section-label">04 / Contact</div><div className="contact-grid reveal"><div><h2>Have a challenge?<br /><span>Let's build.</span></h2><p>Whether you're hiring, collaborating, or just want to talk about cloud infrastructure, my inbox is open.</p><div className="contact-details"><a href="mailto:manojchy4164@gmail.com"><Mail size={17} /> manojchy4164@gmail.com</a><span><MapPin size={17} /> Gadhawa, Dang, Nepal</span></div><div className="socials"><a href="https://github.com/RiturajChaudhary" target="_blank" rel="noreferrer"><Github size={18} /></a><a href="https://linkedin.com/in/rituraj-chaudhary4146" target="_blank" rel="noreferrer"><Linkedin size={18} /></a><a href="mailto:manojchy4164@gmail.com"><Mail size={18} /></a></div></div><form onSubmit={submit} className="contact-form"><label>Name<input name="name" required placeholder="Your name" /></label><label>Email<input name="email" type="email" required placeholder="you@company.com" /></label><label>Message<textarea name="message" required rows="5" placeholder="Tell me about the opportunity..." /></label>{sent && <p className="form-status">Your email app is opening with the message ready to send.</p>}<button className="button primary" type="submit">Open email app <Send size={16} /></button></form></div></section>
+        <div className="section-label">04 / Contact</div><div className="contact-grid reveal"><div><h2>Have a challenge?<br /><span>Let's build.</span></h2><p>Whether you're hiring, collaborating, or just want to talk about cloud infrastructure, my inbox is open.</p><div className="contact-details"><a href="mailto:manojchy4164@gmail.com"><Mail size={17} /> manojchy4164@gmail.com</a><span><MapPin size={17} /> Gadhawa, Dang, Nepal</span></div><div className="socials"><a href="https://github.com/RiturajChaudhary" target="_blank" rel="noreferrer"><Github size={18} /></a><a href="https://linkedin.com/in/rituraj-chaudhary4146" target="_blank" rel="noreferrer"><Linkedin size={18} /></a><a href="mailto:manojchy4164@gmail.com"><Mail size={18} /></a></div></div><form onSubmit={submit} className="contact-form"><label>Name<input name="name" required placeholder="Your name" /></label><label>Email<input name="email" type="email" required placeholder="you@company.com" /></label><label>Message<textarea name="message" required rows="5" placeholder="Tell me about the opportunity..." /></label>{formStatus && <p className="form-status" role="status">{formStatus}</p>}<button className="button primary" type="submit" disabled={sending}>{sending ? 'Sending...' : 'Send message'} <Send size={16} /></button></form></div></section>
     </main>
     <footer><span>© 2026 Rituraj Chaudhary</span><span>Designed & built with intention <Sparkles size={14} /></span><a href="#top">Back to top ↑</a></footer>
     {selected && <div className="modal-backdrop" onClick={() => setSelected(null)}><div className="project-modal" onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelected(null)}><X /></button><div className={`modal-kicker ${selected.accent}`}>{selected.number} / {selected.type}</div><h2>{selected.title}</h2><p>{selected.description}</p><ul>{selected.details.map((detail) => <li key={detail}><ShieldCheck size={16} />{detail}</li>)}</ul><div className="modal-actions">{selected.links?.map((link) => <a className="text-link" href={link.url} target="_blank" rel="noreferrer" key={link.label}>{link.label} <ExternalLink size={14} /></a>)}</div></div></div>}
