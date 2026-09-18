@@ -98,6 +98,46 @@ const updateActiveLink = () => {
 window.addEventListener('scroll', updateActiveLink, { passive: true });
 updateActiveLink();
 
+const header = document.querySelector('.site-header');
+const applyHeaderState = () => {
+  header.classList.toggle('is-scrolled', window.scrollY > 16);
+};
+window.addEventListener('scroll', applyHeaderState, { passive: true });
+applyHeaderState();
+
+const revealItems = document.querySelectorAll('.hero-copy, .hero-visual, .section-heading, .about-grid, .project-card, .skill-card, .workflow-marquee, .resume-card, .contact-grid, .site-footer');
+revealItems.forEach((element) => element.classList.add('reveal'));
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+revealItems.forEach((element) => observer.observe(element));
+
+const tiltItems = document.querySelectorAll('.project-card, .skill-card, .resume-card, .hero-portrait, .hero-status, .detail-card');
+tiltItems.forEach((item) => {
+  const handleMove = (event) => {
+    const rect = item.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const rotateY = ((x / rect.width) - 0.5) * 12;
+    const rotateX = (0.5 - (y / rect.height)) * 12;
+    item.style.setProperty('--rotate-x', `${rotateX}deg`);
+    item.style.setProperty('--rotate-y', `${rotateY}deg`);
+    item.style.setProperty('--glow-x', `${(x / rect.width) * 100}%`);
+    item.style.setProperty('--glow-y', `${(y / rect.height) * 100}%`);
+  };
+
+  item.addEventListener('pointermove', handleMove);
+  item.addEventListener('pointerleave', () => {
+    item.style.setProperty('--rotate-x', '0deg');
+    item.style.setProperty('--rotate-y', '0deg');
+  });
+});
+
 const form = document.querySelector('#contact-form');
 const formStatus = document.querySelector('.form-status');
 emailjs.init({ publicKey: EMAIL_PUBLIC_KEY });
