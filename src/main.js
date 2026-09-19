@@ -1,5 +1,12 @@
 import emailjs from '@emailjs/browser';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+import * as THREE from 'three';
+import { createIcons, ArrowDown, ArrowUpRight, Lightbulb, Menu, X } from 'lucide';
 import './style.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const EMAIL_SERVICE = 'service_s3fk7bl';
 const EMAIL_TEMPLATE = 'template_0iktivc';
@@ -105,38 +112,102 @@ const applyHeaderState = () => {
 window.addEventListener('scroll', applyHeaderState, { passive: true });
 applyHeaderState();
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lenis = prefersReducedMotion ? null : new Lenis({ lerp: 0.08, smoothWheel: true });
+if (lenis) {
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+}
+
 const revealItems = document.querySelectorAll('.hero-copy, .hero-visual, .section-heading, .about-grid, .project-card, .skill-card, .workflow-marquee, .resume-card, .contact-grid, .site-footer');
-revealItems.forEach((element) => element.classList.add('reveal'));
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
+if (prefersReducedMotion) {
+  gsap.set(revealItems, { clearProps: 'all' });
+} else {
+  gsap.set(revealItems, { autoAlpha: 0, y: 28 });
+  revealItems.forEach((element) => {
+    gsap.to(element, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.75,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: element, start: 'top 88%', once: true }
+    });
   });
-}, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-revealItems.forEach((element) => observer.observe(element));
+  gsap.from('.hero-copy > *', { autoAlpha: 0, y: 24, duration: 0.8, stagger: 0.1, delay: 0.15, ease: 'power3.out' });
+  gsap.from('.hero-portrait, .hero-status', { autoAlpha: 0, x: 28, duration: 1, stagger: 0.12, delay: 0.35, ease: 'power3.out' });
+}
 
-const tiltItems = document.querySelectorAll('.project-card, .skill-card, .resume-card, .hero-portrait, .hero-status, .detail-card');
-tiltItems.forEach((item) => {
-  const handleMove = (event) => {
-    const rect = item.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const rotateY = ((x / rect.width) - 0.5) * 12;
-    const rotateX = (0.5 - (y / rect.height)) * 12;
-    item.style.setProperty('--rotate-x', `${rotateX}deg`);
-    item.style.setProperty('--rotate-y', `${rotateY}deg`);
-    item.style.setProperty('--glow-x', `${(x / rect.width) * 100}%`);
-    item.style.setProperty('--glow-y', `${(y / rect.height) * 100}%`);
-  };
-
-  item.addEventListener('pointermove', handleMove);
-  item.addEventListener('pointerleave', () => {
-    item.style.setProperty('--rotate-x', '0deg');
-    item.style.setProperty('--rotate-y', '0deg');
-  });
+document.querySelectorAll('.project-card, .skill-card, .resume-card, .hero-portrait, .hero-status, .detail-card').forEach((item) => {
+  if (prefersReducedMotion) return;
+  item.addEventListener('pointerenter', () => gsap.to(item, { y: -7, duration: 0.35, ease: 'power2.out', overwrite: true }));
+  item.addEventListener('pointerleave', () => gsap.to(item, { y: 0, duration: 0.5, ease: 'power3.out', overwrite: true }));
 });
+
+const networkCanvas = document.querySelector('[data-network-canvas]');
+if (networkCanvas && !prefersReducedMotion) {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  camera.position.z = 7;
+  const renderer = new THREE.WebGLRenderer({ canvas: networkCanvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+  const nodes = new THREE.Group();
+  const points = [];
+  const material = new THREE.MeshBasicMaterial({ color: 0x65d6d0, transparent: true, opacity: 0.78 });
+  const geometry = new THREE.SphereGeometry(0.035, 8, 8);
+  const coordinate = (seed, scale) => Math.sin(seed * 12.37) * 0.5 * scale;
+  for (let index = 0; index < 38; index += 1) {
+    const point = new THREE.Mesh(geometry, material);
+    point.position.set(coordinate(index + 1, 7), coordinate(index + 9, 4.8), coordinate(index + 17, 2));
+    nodes.add(point);
+    points.push(point.position.clone());
+  }
+  const linePositions = [];
+  points.forEach((point, index) => {
+    points.slice(index + 1).forEach((other) => {
+      if (point.distanceTo(other) < 1.45) linePositions.push(point.x, point.y, point.z, other.x, other.y, other.z);
+    });
+  });
+  const lineGeometry = new THREE.BufferGeometry();
+  lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+  const lines = new THREE.LineSegments(lineGeometry, new THREE.LineBasicMaterial({ color: 0x2864d7, transparent: true, opacity: 0.2 }));
+  scene.add(nodes, lines);
+  const resize = () => {
+    const bounds = networkCanvas.getBoundingClientRect();
+    renderer.setSize(bounds.width, bounds.height, false);
+    camera.aspect = bounds.width / bounds.height;
+    camera.updateProjectionMatrix();
+  };
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+  const animate = (time) => {
+    nodes.rotation.y = time * 0.00008;
+    lines.rotation.y = time * 0.00008;
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  };
+  requestAnimationFrame(animate);
+}
+
+const themeToggle = document.querySelector('.theme-toggle');
+const setTheme = (isLight) => {
+  document.documentElement.classList.toggle('theme-dark', !isLight);
+  themeToggle.setAttribute('aria-pressed', String(isLight));
+  themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+  themeToggle.title = isLight ? 'Switch to dark theme' : 'Switch to light theme';
+};
+if (themeToggle) {
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  const isLight = savedTheme !== 'dark';
+  setTheme(isLight);
+  themeToggle.addEventListener('click', () => {
+    const nextIsLight = document.documentElement.classList.contains('theme-dark');
+    setTheme(nextIsLight);
+    localStorage.setItem('portfolio-theme', nextIsLight ? 'light' : 'dark');
+  });
+}
+
+createIcons({ icons: { ArrowDown, ArrowUpRight, Lightbulb, Menu, X } });
 
 const form = document.querySelector('#contact-form');
 const formStatus = document.querySelector('.form-status');

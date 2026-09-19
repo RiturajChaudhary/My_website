@@ -1,4 +1,6 @@
 import './style.css';
+import gsap from 'gsap';
+import { createIcons, Lightbulb, Menu } from 'lucide';
 
 const projects = {
   terraform: {
@@ -56,3 +58,39 @@ if (project.links.length === 0) {
     links.append(link);
   });
 }
+
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  gsap.from('.project-detail > *', { autoAlpha: 0, y: 24, duration: 0.75, stagger: 0.1, ease: 'power3.out' });
+}
+
+const themeToggle = document.querySelector('.theme-toggle');
+const setTheme = (isLight) => {
+  document.documentElement.classList.toggle('theme-dark', !isLight);
+  themeToggle.setAttribute('aria-pressed', String(isLight));
+  themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+  themeToggle.title = isLight ? 'Switch to dark theme' : 'Switch to light theme';
+};
+if (themeToggle) {
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  const isLight = savedTheme !== 'dark';
+  setTheme(isLight);
+  themeToggle.addEventListener('click', () => {
+    const nextIsLight = document.documentElement.classList.contains('theme-dark');
+    setTheme(nextIsLight);
+    localStorage.setItem('portfolio-theme', nextIsLight ? 'light' : 'dark');
+  });
+}
+const menuToggle = document.querySelector('.menu-toggle');
+const siteNav = document.querySelector('.site-nav');
+if (menuToggle && siteNav) {
+  menuToggle.addEventListener('click', () => {
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!expanded));
+    siteNav.classList.toggle('is-open', !expanded);
+  });
+  siteNav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    menuToggle.setAttribute('aria-expanded', 'false');
+    siteNav.classList.remove('is-open');
+  }));
+}
+createIcons({ icons: { Lightbulb, Menu } });
