@@ -195,7 +195,7 @@ h2 { font-size: clamp(2.7rem, 5.5vw, 5.5rem); font-weight: 600; }
 .form-status { min-height: 1.2rem; color: var(--acid); font-family: var(--mono); font-size: .74rem; }
 .form-status.error { color: #ff9696; }
 
-.site-footer { width: var(--content); margin: 0 auto; padding: 2rem 0 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); color: var(--faint); }
+.site-footer { width: var(--content); max-width: 100%; margin: 0 auto; padding: 2rem 0 3rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--line); color: var(--faint); overflow-wrap: anywhere; }
 .site-footer > span { color: var(--acid); font-family: var(--mono); }
 .site-footer p { margin: 0; font-size: .8rem; }
 .site-footer small { font-size: .68rem; }
@@ -324,6 +324,7 @@ h2 { font-size: clamp(2.7rem, 5.5vw, 5.5rem); font-weight: 600; }
   .project-detail h1, .workflow-detail h1 { font-size: clamp(2.2rem, 13vw, 3.2rem); }
   .detail-layout { gap: .75rem; }
   .detail-card { padding: 1rem; }
+  .site-footer { align-items: center; text-align: center; gap: .8rem; }
   .site-footer p { max-width: 24ch; line-height: 1.5; }
 }
 

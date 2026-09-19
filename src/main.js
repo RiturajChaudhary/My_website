@@ -120,7 +120,7 @@ if (lenis) {
   gsap.ticker.lagSmoothing(0);
 }
 
-const revealItems = document.querySelectorAll('.hero-copy, .hero-visual, .section-heading, .about-grid, .project-card, .skill-card, .workflow-marquee, .resume-card, .contact-grid, .site-footer');
+const revealItems = document.querySelectorAll('.hero-copy, .hero-visual, .section-heading, .about-grid, .project-card, .skill-card, .workflow-marquee, .resume-card, .contact-grid');
 if (prefersReducedMotion) {
   gsap.set(revealItems, { clearProps: 'all' });
 } else {
