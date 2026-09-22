@@ -1,0 +1,35 @@
+name: OWASP Dependency Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scan dependencies
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "Rituraj portfolio"
+          path: "."
+          format: "HTML"
+          out: "reports"
+          args: >-
+            --failOnCVSS 7
+            --enableRetired
+
+      - name: Upload dependency report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: owasp-dependency-check-report
+          path: reports

@@ -17,3 +17,7 @@ This is a static Vite app. Build it with `npm run build`, then serve the generat
 - **Cloudflare Pages:** connect the GitHub repository, use `npm run build` as the build command, and `dist` as the output directory.
 
 The `CNAME` file preserves the custom GitHub Pages domain. The contact form uses `mailto:` so there is no third-party form service or server to maintain.
+
+## Dependency security
+
+GitHub Actions runs OWASP Dependency-Check for pushes to `main`, pull requests, and manual workflow runs. The workflow fails when it finds a dependency vulnerability with a CVSS score of 7 or higher and uploads the HTML report as a workflow artifact.
